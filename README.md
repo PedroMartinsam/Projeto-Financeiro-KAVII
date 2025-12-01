@@ -66,7 +66,7 @@ A parte inferior apresenta gráficos detalhados por centro de custo.
 - PostgreSQL  
 - Angular  
 - TypeScript  
-- HTML / CSS  
+- HTML/CSS  
 - Git & GitHub  
 
 ---
