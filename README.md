@@ -21,7 +21,7 @@ KAVII é um sistema moderno de gestão financeira pessoal, permitindo ao usuári
 
 ## 🔑 Tela de Login
 
-![Login](fbb2212d-413f-4524-8c39-64e33b1d246a.png)
+![Login](IMG_readme/login.png)
 
 **Descrição:**  
 Tela inicial onde o usuário realiza autenticação utilizando e-mail e senha. Interface moderna com destaque para o formulário de login.
@@ -30,7 +30,7 @@ Tela inicial onde o usuário realiza autenticação utilizando e-mail e senha. I
 
 ## 🏠 Dashboard Principal
 
-![Dashboard](15fffa5e-1014-4c3b-86ce-30e0a9de44c3.png)
+![Dashboard](IMG_readme/dashboard.png)
 
 **Descrição:**  
 Painel inicial após o login. Aqui o usuário visualiza de forma rápida todas as áreas do sistema, como lançamentos, contas, empresas e usuários.
@@ -39,7 +39,7 @@ Painel inicial após o login. Aqui o usuário visualiza de forma rápida todas a
 
 ## 📊 Extrato e Filtros Avançados
 
-![Extrato](c332c199-6d88-45b1-a931-43619f7fc1d7.png)
+![Extrato](IMG_readme/extrato.png)
 
 **Descrição:**  
 Tela de extrato contendo filtros por conta, período, base de valor e atalhos rápidos.  
