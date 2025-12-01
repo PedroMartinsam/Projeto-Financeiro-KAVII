@@ -1,0 +1,118 @@
+<section class="container py-4">
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3 mb-0">Extrato de Lançamentos</h1>
+    <button class="btn btn-outline-secondary btn-sm" (click)="ngOnInit()" [disabled]="carregando()">
+      <span *ngIf="carregando()" class="spinner-border spinner-border-sm me-2"></span>
+      Recarregar
+    </button>
+  </div>
+
+  <div class="card shadow-sm mb-3">
+    <div class="card-body">
+      <form [formGroup]="form" class="row g-2">
+  <div class="col-12 col-xl-4">
+    <label for="fDesc" class="form-label mb-1">Descrição</label>
+    <input id="fDesc" class="form-control" placeholder="Descrição contém..." formControlName="descricao">
+  </div>
+
+        <div class="col-12 col-lg-3">
+          <label class="form-label small mb-1">Centro de Custo</label>
+          <select class="form-select" formControlName="centroCustoId">
+            <option [ngValue]="null">– Centro de Custo –</option>
+            <option *ngFor="let cc of centros()" [ngValue]="cc.id">{{ cc.descricao || ('#'+cc.id) }}</option>
+          </select>
+        </div>
+
+        <div class="col-12 col-xl-3">
+  <label for="fConta" class="form-label mb-1">Conta</label>
+  <select id="fConta" class="form-select" formControlName="contaId">
+    <option [ngValue]="null">– Conta –</option>
+    <option *ngFor="let c of contas()" [ngValue]="c.id">
+      {{ c.descricao || c.nome || ('#' + c.id) }}
+    </option>
+  </select>
+</div>        
+
+        <div class="col-6 col-lg-2"><label class="form-label small mb-1">Lanç. de</label>
+          <input type="date" class="form-control" formControlName="lancDe">
+        </div>
+        <div class="col-6 col-lg-2"><label class="form-label small mb-1">Venc. de</label>
+          <input type="date" class="form-control" formControlName="vencDe">
+        </div>
+        <div class="col-6 col-lg-2"><label class="form-label small mb-1">Baixa de</label>
+          <input type="date" class="form-control" formControlName="baixaDe">
+        </div>
+        <div class="col-12 col-lg-2 d-grid">
+          <button class="btn btn-outline-secondary" type="button" (click)="limpar()">Limpar</button>
+        </div>
+
+        <div class="col-12" *ngIf="erro()">
+          <div class="alert alert-danger mt-2 mb-0">{{ erro() }}</div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="table-responsive">
+      <table class="table align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Descrição</th>
+            <th>Lançamento</th>
+            <th>Vencimento</th>
+            <th>Baixa</th>
+            <th>Tipo</th>
+            <th>Situação</th>
+            <th class="text-end">Doc.</th>
+            <th class="text-end">Baix.</th>
+          </tr>
+        </thead>
+        <tbody>
+  <tr *ngFor="let l of lista()">
+    <td [style.backgroundColor]="corLancamento(l)" class="text-muted">#{{ l.id }}</td>
+    <td [style.backgroundColor]="corLancamento(l)">{{ l.descricao }}</td>
+    <td [style.backgroundColor]="corLancamento(l)">{{ l.dataLancamentoISO }}</td>
+    <td [style.backgroundColor]="corLancamento(l)">{{ l.dataVencimentoISO }}</td>
+    <td [style.backgroundColor]="corLancamento(l)">{{ l.dataBaixaISO }}</td>
+    <td [style.backgroundColor]="corLancamento(l)">{{ l.tipoLancamento }}</td>
+    <td [style.backgroundColor]="corLancamento(l)">{{ l.situacao }}</td>
+    <td [style.backgroundColor]="corLancamento(l)" class="text-end">
+      {{ l.valorDocumento | number:'1.2-2' }}
+    </td>
+    <td [style.backgroundColor]="corLancamento(l)" class="text-end">
+      {{ l.valorBaixado | number:'1.2-2' }}
+    </td>
+  </tr>
+
+  <tr *ngIf="!lista().length">
+    <td colspan="9" class="text-center text-muted py-4">Nenhum lançamento encontrado.</td>
+  </tr>
+</tbody>
+        <tfoot *ngIf="lista().length">
+          <tr class="table-light">
+            <th colspan="7" class="text-end">Saldo (Documento):</th>
+            <th class="text-end">{{ saldoDoc() | number:'1.2-2' }}</th>
+            <th></th>
+          </tr>
+          <tr>
+            <td colspan="7" class="text-end text-muted">Créditos / Débitos (Documento):</td>
+            <td class="text-end text-success">{{ totCreditoDoc() | number:'1.2-2' }}</td>
+            <td class="text-end text-danger">{{ totDebitoDoc()  | number:'1.2-2' }}</td>
+          </tr>
+          <tr class="table-light">
+            <th colspan="7" class="text-end">Saldo (Baixa):</th>
+            <th class="text-end">{{ saldoBaix() | number:'1.2-2' }}</th>
+            <th></th>
+          </tr>
+          <tr>
+            <td colspan="7" class="text-end text-muted">Créditos / Débitos (Baixa):</td>
+            <td class="text-end text-success">{{ totCreditoBaix() | number:'1.2-2' }}</td>
+            <td class="text-end text-danger">{{ totDebitoBaix()  | number:'1.2-2' }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</section>

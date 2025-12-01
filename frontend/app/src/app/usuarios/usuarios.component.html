@@ -1,0 +1,236 @@
+<style>
+  :root{
+    --k-purple:#8A05BE;
+    --k-purple-2:#B517FF;
+    --k-purple-3:#E6D5FF;
+    --k-purple-dark:#3C096C; /* roxo escuro pedido */
+    --k-text-dark:#134bbb;
+    --k-danger:#e11d48;
+  }
+
+  .k-wrap{ padding:24px; }
+  .k-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
+  .k-title{ margin:0; font-weight:900; font-size:clamp(20px,2vw,24px); color:var(--k-text-dark); }
+
+  .k-btn{
+    border-radius:12px; padding:10px 14px; font-weight:800; cursor:pointer;
+    border:1px solid rgba(138, 12, 12, 0.08); transition:.15s;
+  }
+  .k-btn:disabled{ opacity:.6; cursor:not-allowed; }
+  .k-btn-primary{
+    background:linear-gradient(180deg,var(--k-purple-2) 0%,var(--k-purple) 100%);
+    color:#000; box-shadow:0 6px 16px rgba(181,23,255,.28);
+  }
+  .k-btn-primary:hover{ transform:translateY(-1px); }
+  .k-btn-green{ background:#16a34a; color:#fff; border-color:#12843d; }
+  .k-btn-green:hover{ filter:brightness(1.05); transform:translateY(-1px); }
+  .k-btn-red{ background:#dc2626; color:#fff; border-color:#b91c1c; }
+  .k-btn-reload{ background:linear-gradient(180deg,var(--k-purple-2) 0%,var(--k-purple) 100%); color:#000; }
+
+  .k-card{
+    background:#fff; border:1px solid var(--k-purple-3); border-radius:18px;
+    padding:18px; box-shadow:0 16px 40px rgba(181,23,255,.12), 0 8px 18px rgba(0,0,0,.06);
+  }
+  .k-card + .k-card{ margin-top:16px; }
+
+  .k-label{ display:grid; gap:6px; font-weight:800; color:#3a3556; font-size:13px; }
+  .k-input{
+    padding:12px; border-radius:12px; border:1px solid var(--k-purple-3);
+    background:#FBF8FF; color:#0f1020; outline:none; transition:.15s; width:100%;
+  }
+  .k-input:hover{ background:#f5ebff; }
+  .k-input:focus{
+    border-color:var(--k-purple);
+    box-shadow:0 0 0 4px rgba(181,23,255,.22);
+    background:#fff;
+  }
+  .k-err{ color:var(--k-danger); font-size:.9rem; margin-top:4px; }
+
+  .k-table{ width:100%; border-collapse:separate; border-spacing:0 10px; }
+  .k-table thead th{ text-align:left; font-weight:900; color:#3a3556; padding:10px; }
+  .k-table tbody td{
+    background:#fff; border:1px solid var(--k-purple-3); padding:10px; vertical-align:middle;
+  }
+  .k-table tbody tr{ box-shadow:0 8px 20px rgba(181,23,255,.08), 0 4px 10px rgba(0,0,0,.04); }
+  .k-table tbody tr td:first-child{ border-top-left-radius:12px; border-bottom-left-radius:12px; }
+  .k-table tbody tr td:last-child{ border-top-right-radius:12px; border-bottom-right-radius:12px; }
+  .muted{ color:#6b7280; }
+
+  /* Chips (default branco/preto; ativo roxo escuro/branco) */
+  .k-roles{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .k-chip{
+    position:relative;
+    display:inline-flex; align-items:center; gap:10px;
+    padding:10px 16px; border-radius:999px;
+    border:1px solid var(--k-purple-3);
+    background:#fff; color:#000; font-weight:900;
+    box-shadow:0 6px 16px rgba(181,23,255,.08);
+    cursor:pointer; user-select:none; transition:.15s;
+  }
+  .k-chip:hover{ transform:translateY(-1px); box-shadow:0 10px 22px rgba(181,23,255,.12); }
+  .k-chip input[type="checkbox"]{
+    appearance:none; position:absolute; inset:0; margin:0; cursor:pointer; opacity:0; width:100%; height:100%;
+  }
+  .k-dot{
+    width:10px; height:10px; border-radius:999px; border:2px solid var(--k-purple-dark);
+    display:inline-block; box-shadow: inset 0 0 0 2px #fff; background:transparent;
+  }
+  .k-chip.is-active{
+    background: var(--k-purple-dark);
+    color:#fff;
+    border-color:transparent;
+    box-shadow:0 10px 22px rgba(60,9,108,.35);
+  }
+  .k-chip.is-active .k-dot{ background:#fff; border-color:#fff; }
+  .k-chip.is-disabled{ opacity:.9; cursor:not-allowed; }
+
+  /* === FIX VISUAL DOS CHIPS (texto sempre visível) === */
+.k-chip,
+.k-chip * {
+  color: #111 !important;           /* texto preto por padrão */
+}
+
+/* estado ativo: roxo escuro + texto branco */
+.k-chip.is-active,
+.k-chip.is-active * {
+  color: #fff !important;
+}
+.k-chip.is-active {
+  background: #3C096C !important;   /* roxo escuro */
+  border-color: transparent !important;
+  box-shadow: 0 10px 22px rgba(60,9,108,.35);
+}
+.k-chip.is-active .k-dot {
+  background: #fff !important;
+  border-color: #fff !important;
+}
+
+/* USER sempre ativo visualmente (sem clicar) */
+.k-chip.is-disabled {
+  opacity: 1;                        /* deixa nítido */
+  cursor: default;
+}
+
+</style>
+
+<section class="k-wrap">
+  <!-- Cabeçalho -->
+  <div class="k-head">
+    <h1 class="k-title">Usuários</h1>
+    <button class="k-btn k-btn-reload" (click)="carregar()" [disabled]="loading">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+      Recarregar
+    </button>
+  </div>
+
+  <!-- Card: Criar -->
+  <div class="k-card">
+    <form [formGroup]="form" (ngSubmit)="criar()" class="row g-2 align-items-end">
+      <div class="col-md-3">
+        <label class="k-label">Nome
+          <input class="k-input" formControlName="nome" placeholder="Nome completo">
+        </label>
+      </div>
+      <div class="col-md-3">
+        <label class="k-label">E-mail
+          <input class="k-input" type="email" formControlName="email" placeholder="email@exemplo.com">
+        </label>
+      </div>
+      <div class="col-md-3">
+        <label class="k-label">Senha
+          <input class="k-input" type="password" formControlName="senha" placeholder="Senha inicial">
+        </label>
+      </div>
+
+      <!-- USER sempre ativo (visual) | ADMIN alternável -->
+      <div class="col-md-3">
+        <label class="k-label">Papel</label>
+        <div class="k-roles">
+          <!-- USER: ativo visualmente e desabilitado -->
+          <span class="k-chip is-active is-disabled">
+            <span class="k-dot"></span> USER
+            <input type="checkbox" checked disabled>
+          </span>
+
+          <!-- ADMIN: alterna personType entre ['USER'] e ['USER','ADMIN'] -->
+          <label class="k-chip" [class.is-active]="roleAdmin.checked">
+            <span class="k-dot"></span> ADMIN
+            <input #roleAdmin type="checkbox"
+                   (change)="form.controls.personType.setValue(roleAdmin.checked ? ['USER','ADMIN'] : ['USER'])">
+          </label>
+        </div>
+      </div>
+
+      <div class="col-auto">
+        <button type="submit" class="k-btn k-btn-primary" [disabled]="form.invalid || loading">
+          Criar
+        </button>
+      </div>
+
+      <div class="k-err" *ngIf="error">{{ error }}</div>
+      <div class="k-err" *ngIf="form.controls.nome.touched && form.controls.nome.hasError('required')">Informe o nome.</div>
+      <div class="k-err" *ngIf="form.controls.email.touched && form.controls.email.hasError('required')">Informe o e-mail.</div>
+      <div class="k-err" *ngIf="form.controls.email.touched && form.controls.email.hasError('email')">E-mail inválido.</div>
+    </form>
+  </div>
+
+  <!-- Card: Lista -->
+  <div class="k-card">
+    <div class="table-responsive">
+      <table class="k-table">
+        <thead>
+          <tr>
+            <th style="width:90px;">ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Perfis</th>
+            <th class="text-end" style="width:260px;">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of usuarios">
+            <td class="muted">#{{ u.id }}</td>
+
+            <td><input class="k-input" #nome [value]="u.nome"></td>
+            <td><input class="k-input" #email [value]="u.email"></td>
+
+            <td>
+              <div class="k-roles">
+                <!-- USER sempre ativo (visual) -->
+                <span class="k-chip is-active is-disabled">
+                  <span class="k-dot"></span> USER
+                  <input type="checkbox" checked disabled>
+                </span>
+
+                <!-- ADMIN alternável (ref #adm) com estado visual -->
+                <label class="k-chip" [class.is-active]="adm.checked">
+                  <span class="k-dot"></span> ADMIN
+                  <input type="checkbox" #adm [checked]="(u.personType ?? []).includes('ADMIN')">
+                </label>
+
+                <input class="k-input" #senha type="password" placeholder="Nova senha (opcional)" style="min-width:180px;">
+              </div>
+            </td>
+
+            <td class="text-end">
+              <button class="k-btn k-btn-green me-2"
+                      (click)="onSalvar(u, nome.value, email.value, senha.value, adm.checked)"
+                      [disabled]="loading">
+                Salvar
+              </button>
+              <button class="k-btn k-btn-red"
+                      (click)="remover(u.id)"
+                      [disabled]="loading">
+                Excluir
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="!usuarios?.length">
+            <td colspan="5" class="muted text-center py-3">Nenhum usuário cadastrado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

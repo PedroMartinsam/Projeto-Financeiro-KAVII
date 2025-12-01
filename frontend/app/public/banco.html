@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Bancos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-dark bg-dark mb-4">
+  <div class="container">
+    <span class="navbar-brand">🏦 Bancos</span>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="m-0">Lista de Bancos</h3>
+    <input id="filtro" class="form-control w-50" placeholder="Filtrar por nome ou ID..." />
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+          <thead class="table-dark">
+          <tr>
+            <th style="width: 100px;">ID</th>
+            <th>Razão Social</th>
+          </tr>
+          </thead>
+          <tbody id="tbody-bancos">
+          <tr><td colspan="2" class="text-center p-4">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <p id="erro" class="text-danger mt-3 d-none"></p>
+</div>
+
+<script>
+  const API = '/api/bancos'; // com proxy Angular -> http://localhost:8080/api/bancos
+  let dados = [];
+
+  async function carregar() {
+    try {
+      const resp = await fetch(API, { headers: { Accept: 'application/json' } });
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      dados = await resp.json();
+      render(dados);
+    } catch (e) {
+      document.getElementById('erro').classList.remove('d-none');
+      document.getElementById('erro').textContent = 'Falha ao carregar: ' + e.message;
+      document.getElementById('tbody-bancos').innerHTML =
+        '<tr><td colspan="2" class="text-center p-4 text-danger">Erro ao carregar</td></tr>';
+    }
+  }
+
+  function render(lista) {
+    const tbody = document.getElementById('tbody-bancos');
+    if (!lista || lista.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="2" class="text-center p-4">Nenhum banco encontrado</td></tr>';
+      return;
+    }
+    tbody.innerHTML = lista.map((b) => `
+      <tr>
+        <td>${b.id ?? ''}</td>
+        <td>${escapeHtml(b.razaoSocial ?? '')}</td>
+      </tr>
+    `).join('');
+  }
+
+  // filtro
+  document.getElementById('filtro').addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase().trim();
+    const filtrado = dados.filter((b) =>
+      String(b.id ?? '').includes(q) ||
+      String(b.razaoSocial ?? '').toLowerCase().includes(q)
+    );
+    render(filtrado);
+  });
+
+  // proteção básica contra XSS ao injetar texto
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  carregar();
+</script>
+</body>
+</html>

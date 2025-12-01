@@ -1,0 +1,234 @@
+<section class="kavii-page container py-4">
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3 mb-0 kavii-title">Lançamentos</h1>
+    <button class="btn btn-sm k-btn-reload"
+        (click)="carregarTudo()"
+        [disabled]="carregando()">
+  <span *ngIf="carregando()" class="spinner-border spinner-border-sm me-2"></span>
+  Recarregar
+</button>
+
+  </div>
+
+  <!-- Form criar (card) -->
+  <div class="card kavii-card mb-4">
+    <div class="card-body p-3 p-md-4">
+      <form [formGroup]="form" (ngSubmit)="criar()" class="row g-2">
+        <div class="col-12 col-xl-4">
+          <label class="form-label kavii-label">Descrição</label>
+          <input class="form-control kavii-input" placeholder="Descrição" formControlName="descricao">
+        </div>
+
+        <div class="col-6 col-xl-1">
+          <label class="form-label kavii-label">Parcela</label>
+          <input class="form-control kavii-input" placeholder="Parcela" formControlName="parcela">
+        </div>
+
+        <div class="col-6 col-xl-2">
+          <label class="form-label kavii-label">Data Lanc.</label>
+          <input type="date" class="form-control kavii-input" formControlName="dataLancamentoISO">
+        </div>
+
+        <div class="col-6 col-xl-2">
+          <label class="form-label kavii-label">Data Venc.</label>
+          <input type="date" class="form-control kavii-input" formControlName="dataVencimentoISO">
+        </div>
+
+        <div class="col-6 col-xl-2">
+          <label class="form-label kavii-label">Data Baixa</label>
+          <input type="date" class="form-control kavii-input" formControlName="dataBaixaISO">
+        </div>
+
+        <div class="col-6 col-xl-1">
+          <label class="form-label kavii-label">Doc.</label>
+          <input type="number" step="0.01" class="form-control kavii-input text-end" placeholder="Doc." formControlName="valorDocumento">
+        </div>
+
+        <div class="col-6 col-xl-1">
+          <label class="form-label kavii-label">Baix.</label>
+          <input type="number" step="0.01" class="form-control kavii-input text-end" placeholder="Baix." formControlName="valorBaixado">
+        </div>
+
+        <div class="col-6 col-xl-2">
+          <label class="form-label kavii-label">Tipo</label>
+          <select class="form-select kavii-select" formControlName="tipoLancamento">
+            <option *ngFor="let t of tipos" [value]="t">{{ t }}</option>
+          </select>
+        </div>
+
+        <div class="col-6 col-xl-2">
+          <label class="form-label kavii-label">Situação</label>
+          <select class="form-select kavii-select" formControlName="situacao">
+            <option *ngFor="let s of situacoes" [value]="s">{{ s }}</option>
+          </select>
+        </div>
+
+        <div class="col-6 col-xl-3">
+          <label class="form-label kavii-label">Conta</label>
+          <select class="form-select kavii-select" formControlName="contaId">
+            <option [ngValue]="null">– Conta –</option>
+            <option *ngFor="let c of contas()" [ngValue]="c.id">{{ c.descricao || ('#' + c.id) }}</option>
+          </select>
+        </div>
+
+        <div class="col-6 col-xl-3">
+          <label class="form-label kavii-label">Terceiro</label>
+          <select class="form-select kavii-select" formControlName="terceiroId">
+            <option [ngValue]="null">– Terceiro –</option>
+            <option *ngFor="let t of terceiros()" [ngValue]="t.id">{{ t.nome || t.razaoSocial || ('#' + t.id) }}</option>
+          </select>
+        </div>
+
+        <div class="col-6 col-xl-3">
+          <label class="form-label kavii-label">Centro de Custo</label>
+          <select class="form-select kavii-select" formControlName="centroCustoId">
+            <option [ngValue]="null">– Centro de Custo –</option>
+            <option *ngFor="let cc of centros()" [ngValue]="cc.id">{{ cc.descricao || ('#' + cc.id) }}</option>
+          </select>
+        </div>
+
+        <div class="col-12 col-xl-2 d-grid align-self-end">
+          <button class="btn kavii-btn-primary" type="submit" [disabled]="form.invalid || carregando()">Criar</button>
+        </div>
+
+        <div class="col-12" *ngIf="erro()">
+          <div class="alert alert-danger mt-2 mb-0">{{ erro() }}</div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Filtro -->
+  <div class="card kavii-card mb-4">
+    <div class="card-body p-3 p-md-4">
+      <div class="input-group kavii-filter">
+        <span class="input-group-text kavii-filter-icon">🔎</span>
+        <input class="form-control kavii-input" placeholder="Filtrar por descrição / tipo / valor / conta / centro / terceiro..."
+               (input)="filtro.set(($any($event.target).value ?? '').toString())">
+      </div>
+    </div>
+  </div>
+
+  <!-- Grid de lançamentos como cards -->
+  <div class="kavii-grid">
+    <article class="kavii-launch-card" *ngFor="let l of listaFiltrada(); let i = index">
+      <header class="card-header d-flex align-items-start gap-3">
+        <div class="kavii-id">#{{ l.id }}</div>
+        <div class="kavii-head-main">
+          <h5 class="kavii-desc mb-1">{{ l.descricao || '—' }}</h5>
+          <div class="kavii-sub">
+            <span class="kavii-chip">{{ l.tipoLancamento || '-' }}</span>
+            <span class="kavii-chip secondary">{{ l.situacao || '-' }}</span>
+            <small class="text-muted ms-2">Parcelas: {{ l.parcela || '1/1' }}</small>
+          </div>
+        </div>
+
+        <div class="ms-auto text-end">
+          <div class="kavii-value">R$ {{ l.valorDocumento | number:'1.2-2' }}</div>
+          <div class="text-muted small">Baixado: R$ {{ l.valorBaixado | number:'1.2-2' }}</div>
+        </div>
+      </header>
+
+      <div class="card-body p-3">
+        <div class="row g-2">
+          <div class="col-12 col-md-4">
+            <label class="form-label kavii-label-sm mb-0">Descrição</label>
+            <input class="form-control form-control-sm kavii-input-sm" [value]="l.descricao" #d>
+          </div>
+
+          <div class="col-6 col-md-2">
+            <label class="form-label kavii-label-sm mb-0">Parcelas</label>
+            <input class="form-control form-control-sm kavii-input-sm text-end" [value]="l.parcela" #par>
+          </div>
+
+          <div class="col-6 col-md-2">
+            <label class="form-label kavii-label-sm mb-0">Data Lanc.</label>
+            <input type="date" class="form-control form-control-sm kavii-input-sm" [value]="l.dataLancamentoISO" #dl>
+          </div>
+
+          <div class="col-6 col-md-2">
+            <label class="form-label kavii-label-sm mb-0">Data Venc.</label>
+            <input type="date" class="form-control form-control-sm kavii-input-sm" [value]="l.dataVencimentoISO" #dv>
+          </div>
+
+          <div class="col-6 col-md-2">
+            <label class="form-label kavii-label-sm mb-0">Data Baixa</label>
+            <input type="date" class="form-control form-control-sm kavii-input-sm" [value]="l.dataBaixaISO" #db>
+          </div>
+        </div>
+
+        <hr class="kavii-divider">
+
+        <div class="row g-2 align-items-end">
+          <div class="col-6 col-md-2">
+            <label class="form-label kavii-label-sm mb-0">Doc.</label>
+            <div class="input-group input-group-sm">
+              <span class="input-group-text">R$</span>
+              <input type="number" step="0.01" class="form-control text-end" [value]="l.valorDocumento" #vd>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-2">
+            <label class="form-label kavii-label-sm mb-0">Baix.</label>
+            <div class="input-group input-group-sm">
+              <span class="input-group-text">R$</span>
+              <input type="number" step="0.01" class="form-control text-end" [value]="l.valorBaixado" #vb>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-2">
+            <label class="form-label kavii-label-sm mb-0">Tipo</label>
+            <select class="form-select form-select-sm kavii-select-sm"
+                    [ngModel]="l.tipoLancamento" [ngModelOptions]="{standalone:true}" #tp="ngModel">
+              <option *ngFor="let t of tipos" [ngValue]="t">{{ t }}</option>
+            </select>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <label class="form-label kavii-label-sm mb-0">Conta</label>
+            <select class="form-select form-select-sm kavii-select-sm"
+                    [ngModel]="l.conta?.id ?? null" [ngModelOptions]="{standalone:true}" #conta="ngModel">
+              <option [ngValue]="null">–</option>
+              <option *ngFor="let c of contas()" [ngValue]="c.id">{{ c.descricao || ('#' + c.id) }}</option>
+            </select>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <label class="form-label kavii-label-sm mb-0">Centro Custo</label>
+            <select class="form-select form-select-sm kavii-select-sm"
+                    [ngModel]="l.centroCusto?.id ?? null" [ngModelOptions]="{standalone:true}" #cc="ngModel">
+              <option [ngValue]="null">–</option>
+              <option *ngFor="let c of centros()" [ngValue]="c.id">{{ c.descricao || ('#' + c.id) }}</option>
+            </select>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <label class="form-label kavii-label-sm mb-0">Terceiro</label>
+            <select class="form-select form-select-sm kavii-select-sm"
+                    [ngModel]="l.terceiro?.id ?? null" [ngModelOptions]="{standalone:true}" #ter="ngModel">
+              <option [ngValue]="null">–</option>
+              <option *ngFor="let t of terceiros()" [ngValue]="t.id">{{ t.nome || t.razaoSocial || ('#' + t.id) }}</option>
+            </select>
+          </div>
+
+          <div class="col-6 col-md-2">
+            <label class="form-label kavii-label-sm mb-0">Situação</label>
+            <select class="form-select form-select-sm kavii-select-sm"
+                    [ngModel]="l.situacao" [ngModelOptions]="{standalone:true}" #sit="ngModel">
+              <option *ngFor="let s of situacoes" [ngValue]="s">{{ s }}</option>
+            </select>
+          </div>
+
+          <div class="col-12 col-md d-flex justify-content-end gap-2">
+            <button class="btn btn-success btn-sm"
+              (click)="atualizar(l.id,{ descricao: d.value, parcela: par.value, dataLancamentoISO: dl.value||null, dataVencimentoISO: dv.value||null, dataBaixaISO: db.value||null, valorDocumento: toNumber(vd.value), valorBaixado: toNumber(vb.value), tipoLancamento: tp.value, situacao: sit.value, contaId: conta.value!=null?toNumber(conta.value):null, centroCustoId: cc.value!=null?toNumber(cc.value):null, terceiroId: ter.value!=null?toNumber(ter.value):null })"
+              [disabled]="carregando()">Salvar</button>
+
+            <button class="btn btn-outline-danger btn-sm"
+              (click)="remover(l.id)" [disabled]="carregando()">Excluir</button>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

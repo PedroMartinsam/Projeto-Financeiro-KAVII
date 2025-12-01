@@ -1,0 +1,27 @@
+<div class="container p-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="m-0">Bancos</h2>
+    <input class="form-control w-50" placeholder="Filtrar..."
+           (input)="filtro.set($any($event.target).value)">
+  </div>
+
+  <div *ngIf="carregando()" class="alert alert-info">Carregando...</div>
+  <div *ngIf="erro()" class="alert alert-danger">{{ erro() }}</div>
+
+  <div class="table-responsive shadow-sm" *ngIf="!carregando()">
+    <table class="table table-striped table-hover mb-0">
+      <thead class="table-dark">
+        <tr><th style="width:100px">ID</th><th>Razão Social</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="bancosFiltrados.length === 0">
+          <td colspan="2" class="text-center p-4">Nenhum banco encontrado</td>
+        </tr>
+        <tr *ngFor="let b of bancosFiltrados">
+          <td>{{ b.id }}</td>
+          <td>{{ b.razaoSocial }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

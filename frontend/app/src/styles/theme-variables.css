@@ -1,0 +1,47 @@
+/* Central theme variables for Kavii app
+   Import this file from app/src/styles.scss using:
+     @import './styles/theme-variables.css';
+   After import, components can rely on the .kavii-root and .kavii-root.light variables.
+*/
+
+.kavii-root{
+  --k-bg: #0b1220;
+  --k-bg-soft: #121a2c;
+  --k-card: #0A1B2E; /* navy */
+  --k-border: rgba(255,255,255,0.16);
+  --k-text: #eef3ff;
+  --k-muted: #bdc9e6;
+  --k-danger: #b91c1c;
+  --k-primary: #0d47a1;
+  --k-accent: #00b3ff;
+  --neon-center: rgba(0,179,255,0.20);
+  --neon-edge: rgba(0,179,255,0.08);
+  --k-white: #ffffff;
+}
+
+.kavii-root.light{
+  --k-bg: #f5f7fb;
+  --k-bg-soft: #ffffff;
+  --k-card: #ffffff;
+  --k-border: rgba(16,24,40,0.12);
+  --k-text: #000000;
+  --k-muted: #3a4a68;
+  --k-danger: #b91c1c;
+  --k-primary: #0d47a1;
+  --k-accent: #007be0;
+  --neon-center: rgba(0,123,224,0.12);
+  --neon-edge: rgba(0,123,224,0.04);
+}
+
+/* Optional helpers you can use in components */
+.kavii-bg { background: var(--k-bg); }
+.kavii-card { background: var(--k-card); border: 1px solid var(--k-border); color: var(--k-text); }
+.kavii-muted { color: var(--k-muted); }
+.kavii-accent { color: var(--k-accent); }
+
+/* Light-theme container mix (used in home component) */
+.kavii-root.light .container-kavii{
+  background: linear-gradient(135deg, #ffffff 0%, #e9f8ff 60%) padding-box,
+              radial-gradient(1200px 500px at 80% -10%, rgba(0,123,224,0.06), transparent 60%) border-box;
+  border:1px solid rgba(16,24,40,0.06);
+}

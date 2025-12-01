@@ -1,0 +1,10 @@
+[33m090fc727[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/backup/main-before-push[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;31mkavii/main[m[33m, [m[1;31mkavii/backup_remote_main[m[33m, [m[1;31mkavii/HEAD[m[33m, [m[1;32mbackup_remote_main[m[33m, [m[1;32mbackup/main-before-push[m[33m)[m chore: resolver merge - integrar mudanças do feat/subida-organizada
+[33m5bd036a7[m[33m ([m[1;31morigin/feat/subida-organizada[m[33m, [m[1;32mfeat/subida-organizada[m[33m)[m chore: update .gitignore (ignore node_modules, .angular, log files)
+[33m7c408a3d[m feat(bancos): atualizações e melhorias na pasta bancos
+[33mc0af1dcd[m s
+[33m94fc60e5[m Refinar o front gráfico e extrato
+[33m9749a972[m termino do extrato e do grafico
+[33mc9e5773c[m Termino do Front
+[33mad05c7c2[m Implementado até usuário
+[33m671bb592[m Continuação do Frontend
+[33m4f2d3b0e[m Começo do Frontend

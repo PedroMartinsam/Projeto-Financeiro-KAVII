@@ -1,0 +1,53 @@
+# Logs
+*.log
+prjfinanceiro_test.log*
+*.gz
+
+# Diretórios de dependências
+node_modules/
+app/node_modules/
+app/.angular/
+
+# Build e cache
+build/
+dist/
+target/
+.nbbuild/
+.nbdist/
+.sts4-cache
+
+# Maven
+.mvn/
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+.nb-gradle/
+
+# IDEs
+## VS Code
+.vscode/
+
+## IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+## Spring Tool Suite (STS)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+## NetBeans
+/nbproject/private/
+
+# Ignorar builds internos, mas permitir os de src/
+!**/src/main/**/build/
+!**/src/test/**/build/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
