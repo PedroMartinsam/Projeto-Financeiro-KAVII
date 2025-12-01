@@ -267,7 +267,7 @@ import { ContasService, Conta, IdNome, ContaPayload } from './contas.service';
       background: linear-gradient(145deg, #2b0066, #140033);
       border-radius: 14px;
       padding: 1rem;
-      box-shadow: 0 8px 20px #6a00ff22, inset 0 0 0 1px #8d63ff22;
+      box-shadow: 0 8px 20px #25201722, inset 0 0 0 1px #fffc6322;
       border:1px solid #7f42ff33;
       box-sizing: border-box;
     }

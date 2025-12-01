@@ -8,21 +8,21 @@ import { LancamentosService, Lancamento, LancamentoPayload, IdNome } from './lan
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './lancamentos.component.html',
-  styles: [`
-    :host {
-      display: block;
-      /* page background (kept from original, slightly tuned) */
-     background: radial-gradient(circle at top left, #ebe2f1ff, #2c0a31ff);
-      min-height: 100vh;
-      padding: 2rem;
-      box-sizing: border-box;
-      font-family: 'Inter', system-ui, sans-serif;
-      color: #f8f9fa;
-    }
-      /* =========================
-   BOTÃO RECARREGAR BRANCO
-   ========================= */
+ 
+ styles: [`
+:host {
+  display: block;
+  background: radial-gradient(circle at top left, #ebe2f1ff, #2c0a31ff);
+  min-height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #f8f9fa;
+}
 
+/* =========================
+   BOTÃO RECARREGAR BRANCO
+========================= */
 .k-btn-reload {
   background: #ffffff !important;
   color: #000000 !important;
@@ -30,12 +30,10 @@ import { LancamentosService, Lancamento, LancamentoPayload, IdNome } from './lan
   font-weight: 700;
   transition: background .15s ease, transform .1s ease;
 }
-
 .k-btn-reload:hover {
   background: #f3f4f6 !important;
   transform: translateY(-1px);
 }
-
 .k-btn-reload:disabled {
   background: #ffffff !important;
   color: #999999 !important;
@@ -43,139 +41,224 @@ import { LancamentosService, Lancamento, LancamentoPayload, IdNome } from './lan
   transform: none;
 }
 
+/* =========================
+   HELPERS
+========================= */
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.6);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  display: inline-block;
+  margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-    /* small helpers used by template (kept) */
-    .spinner { width:14px; height:14px; border:2px solid rgba(255,255,255,0.6); border-top-color:transparent; border-radius:50%; animation:spin .7s linear infinite; display:inline-block; margin-right:6px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+.container { max-width: 1200px; margin: 0 auto; }
 
-    /* =========================
-       KAVII UI - Cards & Forms (
-       ========================= */
+/* =========================
+   TÍTULOS
+========================= */
+.kavii-title {
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
 
-    /* Page container adjustmentsfor templates using .container) */
-    .container { max-width: 1200px; margin: 0 auto; }
+/* =========================
+   INPUTS ESCUROS UNIFICADOS
+========================= */
+.kavii-input,
+.kavii-input-sm,
+.kavii-select,
+.kavii-select-sm,
+.kavii-filter input {
+  background: linear-gradient(145deg, #2b0066, #140033);
+  color: #f1ecff;
+  border: 1px solid #7f42ff55;
+  border-radius: 10px;
+  padding: .5rem .75rem;
+  box-shadow: none !important;
+}
 
-    /* Title */
-    .kavii-title { color: #fff; font-weight:700; letter-spacing:0.2px; }
+.kavii-input:focus,
+.kavii-select:focus,
+.kavii-filter input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(127,66,255,0.25);
+  border-color: #b17fff;
+  background: rgba(255,255,255,0.08);
+}
 
-    /* Card base: modern glass/white cards */
-    .kavii-card {
-      border-radius:12px;
-      overflow:hidden;
-      box-shadow: 0 10px 30px rgba(8,10,30,0.35);
-      border: none;
-      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));
-      color: #0f1724; /* inner text dark for readability */
-    }
+.kavii-input-sm { padding: .25rem .4rem; border-radius: 6px; }
+.kavii-select-sm { padding: .15rem .4rem; border-radius: 6px; }
 
-    /* Inputs / selects */
-    .kavii-input, .kavii-input-sm, .kavii-select, .kavii-select-sm, .kavii-filter input {
-      border-radius:8px;
-      border:1px solid #e6e9ef;
-      background: #ffffff;
-      padding: .5rem .6rem;
-      box-shadow: inset 0 1px 0 rgba(16,24,40,0.02);
-      color: #0f1724;
-    }
-    .kavii-input:focus, .kavii-select:focus, .kavii-filter input:focus {
-      outline: none;
-      box-shadow: 0 6px 18px rgba(79,93,255,0.12);
-      border-color: rgba(79,93,255,0.45);
-    }
+.kavii-input::placeholder,
+.kavii-filter input::placeholder {
+  color: #cbbcff;
+  opacity: 0.85;
+}
 
-    /* smaller variants */
-    .kavii-input-sm { padding: .25rem .4rem; border-radius:6px; }
-    .kavii-select-sm { padding: .15rem .4rem; border-radius:6px; }
+/* =========================
+   FILTRO
+========================= */
+.kavii-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #7f42ff55;
+  padding: .35rem;
+  background: linear-gradient(145deg, #2b0066, #140033);
+}
 
-    /* labels */
-    .kavii-label { color:#4b5563; font-size:0.85rem; margin-bottom: .25rem; display:block; }
-    .kavii-label-sm { color:#6b7280; font-size:0.78rem; }
+.kavii-filter-icon {
+  font-size: 1rem;
+  padding: .25rem .5rem;
+  color: #f1ecff;
+  background: transparent;
+  border: 0;
+}
 
-    /* buttons */
-    .kavii-btn-primary {
-      background: linear-gradient(90deg,#5566ff,#7b9bff);
-      color: #fff;
-      border: none;
-      padding: .55rem .9rem;
-      border-radius:10px;
-      font-weight:600;
-      box-shadow: 0 6px 18px rgba(86,99,255,0.18);
-    }
-    .kavii-btn-primary:disabled { opacity: .6; cursor: not-allowed; }
+/* =========================
+   BOTÃO PRINCIPAL
+========================= */
+.kavii-btn-primary {
+  background: linear-gradient(90deg,#7f42ff,#9b7bff);
+  color: #fff;
+  border: none;
+  padding: .55rem .9rem;
+  border-radius: 10px;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(127,66,255,0.35);
+}
 
-    /* filter input block */
-    .kavii-filter {
-      display:flex;
-      align-items:center;
-      gap:8px;
-      border-radius:10px;
-      overflow:hidden;
-      border:1px solid #e6e9ef;
-      padding: .35rem;
-      background: #fff;
-    }
-    .kavii-filter-icon { font-size:1rem; padding: .25rem .5rem; color:#6b7280; background:transparent; border:0; }
+/* =========================
+   ÁREA DE CRIAÇÃO
+========================= */
+.kavii-form,
+.kavii-create,
+.kavii-section-create,
+.kavii-launch-create {
+  background: linear-gradient(145deg, #2b0066, #140033);
+  border-radius: 14px;
+  padding: 1rem;
+  border: 1px solid #7f42ff55;
+  color: #f1ecff;
+}
 
-    /* Grid & cards */
-    .kavii-grid {
-      display:grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap:16px;
-      margin-top: 12px;
-    }
+.kavii-form .kavii-label,
+.kavii-create .kavii-label,
+.kavii-section-create .kavii-label,
+.kavii-launch-create .kavii-label {
+  color: #fff;
+}
 
-    .kavii-launch-card {
-      background: #fff;
-      border-radius:12px;
-      overflow:hidden;
-      box-shadow: 0 8px 28px rgba(6,8,25,0.06);
-      transition: transform .18s ease, box-shadow .18s ease;
-      border:1px solid rgba(14,20,30,0.03);
-      color: #0f1724;
-    }
-    .kavii-launch-card:hover { transform: translateY(-6px); box-shadow: 0 18px 48px rgba(6,8,25,0.08); }
+/* =========================
+   GRID
+========================= */
+.kavii-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
 
-    /* card header */
-    .card-header {
-      background: linear-gradient(90deg, rgba(246,248,255,0.8), rgba(255,255,255,0.6));
-      padding:14px;
-      display:flex;
-      align-items:flex-start;
-      gap:12px;
-      border-bottom:1px solid #f1f3f6;
-    }
-    .kavii-id { color:#6b7280; font-weight:700; min-width:48px; }
-    .kavii-desc { margin:0; font-size:1rem; color:#111827; font-weight:700; }
-    .kavii-sub { display:flex; align-items:center; gap:8px; margin-top:4px; }
+/* =========================
+   CARD PADRÃO ROXO
+========================= */
+.kavii-launch-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 360px;
+  max-height: 420px;
+  height: 100%;
+  background: linear-gradient(145deg, #2b0066, #140033);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px #25201722, inset 0 0 0 1px #fffc6322;
+  border: 1px solid #7f42ff55;
+  color: #f1ecff;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.kavii-launch-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px #7f42ff88;
+}
 
-    /* chips */
-    .kavii-chip { background:#eef2ff; color:#2b4db0; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:600; border:1px solid rgba(43,77,176,0.08); }
-    .kavii-chip.secondary { background:#f3f4f6; color:#374151; border:1px solid rgba(55,65,81,0.04); }
+/* =========================
+   HEADER DO CARD
+========================= */
+.card-header {
+  background: linear-gradient(90deg, #3a0c7a, #1a043f);
+  padding: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border-bottom: 1px solid #7f42ff44;
+}
+.kavii-id { color: #d1b7ff; font-weight: 700; min-width: 48px; }
+.kavii-desc { margin: 0; font-size: 1rem; color: #ffffff; font-weight: 700; }
+.kavii-sub { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
 
-    .kavii-value { font-weight:700; color:#0f1724; font-size:1rem; }
+/* =========================
+   CHIPS
+========================= */
+.kavii-chip {
+  background: #7f42ff33;
+  color: #ffffff;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #7f42ff66;
+}
+.kavii-chip.secondary {
+  background: #2b0066;
+  color: #cbbcff;
+  border: 1px solid #7f42ff33;
+}
+.kavii-value {
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 1rem;
+}
 
-    .card-body { padding:12px 14px; background: #fff; }
+/* =========================
+   BODY DO CARD
+========================= */
+.card-body {
+  padding: 12px 14px;
+  background: transparent;
+}
+.kavii-divider {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #7f42ff22, #ffffff22);
+  margin: 12px 0;
+}
 
-    .kavii-divider { border:0; height:1px; background:linear-gradient(90deg, rgba(14,20,30,0.02), rgba(14,20,30,0.03)); margin:12px 0; }
+/* =========================
+   RESPONSIVO
+========================= */
+@media (max-width: 1100px) {
+  .kavii-grid { grid-template-columns: 1fr; }
+  .kavii-launch-card { margin-bottom: 10px; }
+}
 
-    /* responsive tweaks and bootstrap small-input harmony */
-    @media (max-width: 1100px) {
-      .kavii-grid { grid-template-columns: 1fr; }
-      .kavii-card, .kavii-launch-card { margin-bottom: 10px; }
-    }
+/* =========================
+   UTILIDADES
+========================= */
+.text-muted { color: #cbbcff !important; }
+.me-2 { margin-right: .5rem !important; }
+.mb-0 { margin-bottom: 0 !important; }
+.mb-3 { margin-bottom: 1rem !important; }
+`]
 
-    .form-control-sm { height: auto; padding-top: .35rem; padding-bottom: .35rem; }
 
-    /* ensure table-responsive (if kept) and other elements don't clash */
-    .table-editable .form-control { background: transparent; border: 1px solid #e9eef7; border-radius: 6px; }
-    .alert-danger { margin-top: .5rem; }
-
-    /* small utility */
-    .text-muted { color: rgba(15, 23, 36, 0.6) !important; }
-    .me-2 { margin-right: .5rem !important; }
-    .mb-0 { margin-bottom: 0 !important; }
-    .mb-3 { margin-bottom: 1rem !important; }
-  `]
 })
 export class LancamentosComponent {
   private fb = inject(NonNullableFormBuilder);

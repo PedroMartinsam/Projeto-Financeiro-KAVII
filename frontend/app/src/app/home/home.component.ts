@@ -493,22 +493,18 @@ a{color:var(--k-accent);text-decoration:none}
   <div class="container py-4">
 
     <!-- HERO -->
-    <div class="hero">
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
-        <div>
-          <h1 class="hero-title">
-            <span class="badge">KAVII</span>
-            CARTEIRA PESSOAL
-          </h1>
-          <small style="color:var(--k-muted)">Dashboard inicial · visão rápida</small>
-        </div>
-        <button class="theme-btn" (click)="toggleTheme()" aria-label="Alternar tema">
-          <span *ngIf="!isLight">🌙</span>
-          <span *ngIf="isLight">☀️</span>
-          {{ isLight ? 'TEMA CLARO' : 'TEMA ESCURO' }}
-        </button>
-      </div>
+<div class="hero">
+  <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+    <div>
+      <h1 class="hero-title">
+        <span class="badge">KAVII</span>
+        CARTEIRA PESSOAL
+      </h1>
+      <small style="color:var(--k-muted)">Dashboard inicial · visão rápida</small>
     </div>
+  </div>
+</div>
+
 
     <!-- ====== 3 TEMAS / COLUNAS ====== -->
     <div class="areas-grid">
@@ -654,11 +650,7 @@ export class HomeComponent {
   ngAfterViewInit() { this.drawIfReady(); }
   ngOnDestroy() { this.chart?.destroy(); }
 
-  toggleTheme() {
-    this.isLight = !this.isLight;
-    localStorage.setItem('kavii_theme', this.isLight ? 'light' : 'dark');
-    this.redesenhar();
-  }
+ 
 
   public hasRequiredFilters(): boolean { return !!(this.contaId && this.de && this.ate); }
   aplicar() { this.applied = true; this.redesenhar(); }

@@ -14,24 +14,24 @@ import { TerceirosService, Terceiro } from './terceiros.service';
     --k-purple-2:#B517FF;
     --k-purple-3:#E6D5FF;
     --k-purple-dark:#3C096C;
-    --k-text-dark:#0b1220;
+    --k-text-dark:#fff;
     --k-danger:#e11d48;
   }
 
   .k-wrap{ padding:24px; }
   .k-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
   .k-title{ margin:0; font-weight:900; font-size:clamp(20px,2vw,24px); color:var(--k-text-dark); }
-  .k-sub{ margin:2px 0 0; color:#5a5375; font-weight:700; font-size:.95rem; }
+  .k-sub{ margin:2px 0 0; color:#000; font-weight:700; font-size:.95rem; }
 
   /* Botões */
   .k-btn{
     border-radius:12px; padding:10px 14px; font-weight:800; cursor:pointer;
-    border:1px solid rgba(0,0,0,.08); transition:.15s;
+    border:1px solid rgba(249, 245, 245, 0.08); transition:.15s;
   }
   .k-btn:disabled{ opacity:.6; cursor:not-allowed; }
   .k-btn-primary{
     background:linear-gradient(180deg,var(--k-purple-2) 0%,var(--k-purple) 100%);
-    color:#000; box-shadow:0 6px 16px rgba(181,23,255,.28);
+    color:#fff; box-shadow:0 6px 16px rgba(181,23,255,.28);
   }
   .k-btn-primary:hover{ transform:translateY(-1px); }
   .k-btn-reload{ background:linear-gradient(180deg,var(--k-purple-2) 0%,var(--k-purple) 100%); color:#000; }
@@ -39,14 +39,19 @@ import { TerceirosService, Terceiro } from './terceiros.service';
   .k-btn-red{ background:#dc2626; color:#fff; border-color:#b91c1c; }
 
   /* Cards */
-  .k-card{
-    background:#fff; border:1px solid var(--k-purple-3); border-radius:18px;
-    padding:18px; box-shadow:0 16px 40px rgba(181,23,255,.12), 0 8px 18px rgba(0,0,0,.06);
-  }
+  .k-card {
+  background: linear-gradient(145deg, #2b0066, #140033); /* fundo roxo escuro */
+  border: 1px solid #7f42ff55; /* borda lilás translúcida */
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.08);
+  color: #f1ecff; /* texto claro */
+}
+
   .k-card + .k-card{ margin-top:16px; }
 
   /* Inputs */
-  .k-label{ display:grid; gap:6px; font-weight:800; color:#3a3556; font-size:13px; }
+  .k-label{ display:grid; gap:6px; font-weight:800; color:#fff; font-size:13px; }
   .k-input{
     padding:12px; border-radius:12px; border:1px solid var(--k-purple-3);
     background:#FBF8FF; color:#0f1020; outline:none; transition:.15s; width:100%;
@@ -60,14 +65,14 @@ import { TerceirosService, Terceiro } from './terceiros.service';
 
   /* Tabela como linhas-card */
   .k-table{ width:100%; border-collapse:separate; border-spacing:0 10px; }
-  .k-table thead th{ text-align:left; font-weight:900; color:#3a3556; padding:10px; }
+  .k-table thead th{ text-align:left; font-weight:900; color:fff; padding:10px; }
   .k-table tbody td{
-    background:#fff; border:1px solid var(--k-purple-3); padding:10px; vertical-align:middle;
+    background:#0f1020; border:1px solid var(--k-purple-3); padding:10px; vertical-align:middle;
   }
   .k-table tbody tr{ box-shadow:0 8px 20px rgba(181,23,255,.08), 0 4px 10px rgba(0,0,0,.04); }
   .k-table tbody tr td:first-child{ border-top-left-radius:12px; border-bottom-left-radius:12px; }
   .k-table tbody tr td:last-child{ border-top-right-radius:12px; border-bottom-right-radius:12px; }
-  .muted{ color:#6b7280; }
+  .muted{ color:#fff; }
   .alert-danger{ border-radius:12px; }
 </style>
 

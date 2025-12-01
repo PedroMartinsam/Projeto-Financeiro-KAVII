@@ -188,14 +188,22 @@ import { FormsModule } from '@angular/forms';
     .k-wrap{ padding:24px; }
     .k-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
     .k-title{ font-weight:900; color:var(--k-ink); margin:0; font-size:clamp(20px,2vw,24px); }
-    .k-sub{ color:#6f5f8c; font-weight:700; font-size:.95rem; margin:2px 0 0; }
+    .k-sub{ color:#000; font-weight:700; font-size:.95rem; margin:2px 0 0; }
 
     .k-btn{ border-radius:12px; padding:10px 14px; font-weight:800; cursor:pointer; border:1px solid rgba(0,0,0,.08); transition:.15s; color:var(--k-ink); }
     .k-btn-primary{ background:linear-gradient(180deg,var(--k-purple-2),var(--k-purple)); color:#fff; }
-    .k-btn-green{ background:#16a34a; color:#fff; }
-    .k-btn-red{ background:#dc2626; color:#fff; }
+    .k-btn-green{ background:#16a34a; color:#000; }
+    .k-btn-red{ background:#dc2626; color:#000; }
 
-    .k-card{ background:#548; border:1px solid var(--k-purple-3); border-radius:18px; padding:18px; box-shadow:0 16px 40px rgba(181,23,255,.12), 0 8px 18px rgba(0,0,0,.06); color:var(--k-ink); }
+   .k-card {
+  background: linear-gradient(145deg, #2b0066, #140033);
+  border: 1px solid var(--k-purple-3);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 16px 40px rgba(181,23,255,.12), 0 8px 18px rgba(0,0,0,.06);
+  color: #000;
+}
+
 
     .k-input{ width:100%; border:1px solid var(--k-purple-3); border-radius:12px; padding:10px; background:#FBF8FF; color:var(--k-ink); }
     .k-input:focus{ border-color:var(--k-purple); box-shadow:0 0 0 3px rgba(181,23,255,.2); }
@@ -217,12 +225,12 @@ import { FormsModule } from '@angular/forms';
     .k-table tbody tr td:first-child{ border-top-left-radius:12px; border-bottom-left-radius:12px; }
     .k-table tbody tr td:last-child{ border-top-right-radius:12px; border-bottom-right-radius:12px; }
     .row-done{ opacity:.9; }
-    .k-purple-ink{ color:var(--k-ink); }
-    .muted{ color:#7b6a99; }
+    .k-purple-ink{ color:#fff; }
+    .muted{ color: #f1ecff;}
 
     .section-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
-    .section-title{ margin:0; font-size:18px; font-weight:900; color:var(--k-ink); }
-    .count-chip{ background:#efe7ff; color:var(--k-ink); font-weight:900; padding:6px 10px; border-radius:999px; border:1px solid var(--k-purple-3); }
+    .section-title{ margin:0; font-size:18px; font-weight:900; color: #f1ecff; }
+    .count-chip{ background:#efe7ff; color: #f1ecff;; font-weight:900; padding:6px 10px; border-radius:999px; border:1px solid var(--k-purple-3); }
     .count-chip.success{ background:#e8fff1; border-color:#b7f3cf; color:#065f46; }
 
     .pill-done{ display:inline-block; padding:6px 10px; border-radius:999px; background:linear-gradient(180deg,#22c55e,#16a34a); color:#fff; font-weight:900; border:1px solid rgba(0,0,0,.06); }

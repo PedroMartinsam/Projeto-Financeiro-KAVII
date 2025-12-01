@@ -128,25 +128,27 @@ import { BancosService, Banco } from './bancos.service';
     
    :host{
   display: block;
-  min-height: 100vh; /* ✅ ERA 100% – AGORA 100vh */
+  min-height: 100vh; 
   background: radial-gradient(circle at top left, #ebe2f1ff, #2c0a31ff);
 }
 
 /* BOTÃO CRIAR e FECHAR — BRANCO COM TEXTO PRETO */
-.k-btn-primary{
-  background: #ffffff !important;
-  color: #000000 !important;
-  border: 1.5px solid #e0e0e0 !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.10) !important;
+.k-btn-primary {
+  background: linear-gradient(145deg, #2b0066, #e6e0eeff); /* fundo roxo escuro */
+  color: #fff; /* texto claro */
+  border: 1px solid #7f42ff55;
+  box-shadow: 0 6px 16px rgba(0,0,0,.35);
   font-weight: 800;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  transition: transform .08s ease, box-shadow .15s ease, background .15s ease;
 }
 
 /* Hover */
-.k-btn-primary:hover{
-  background: #f2f2f2 !important;
-  color: #000000 !important;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.16) !important;
-  transform: translateY(-1px);
+.k-btn-primary:hover {
+  background: linear-gradient(145deg, #3a007a, #e4deebff); /* tom mais vibrante no hover */
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(127,66,255,.45);
 }
 
 /* Desativado */
@@ -170,8 +172,8 @@ import { BancosService, Banco } from './bancos.service';
 
       --card:#ffffff;
       --title:#0b1220;
-      --text:#1b2430;
-      --muted:#6b6f85;
+      --text:#fff;
+      --muted:#fff;
 
       --border:#E6DAFF;          /* lilás nas bordas */
       --border-strong:#D9C9FF;
@@ -199,30 +201,90 @@ import { BancosService, Banco } from './bancos.service';
       background:var(--card); border:1px solid var(--border);
       border-radius:var(--radius-xl); box-shadow:var(--shadow);
     }
-    .k-card--pad{ padding:18px; }
+    
+  .k-card--pad {
+  background: linear-gradient(145deg, #2b0066, #140033);
+  border: 1px solid #7f42ff55;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+  padding: 28px;
+  color: #f1ecff;
+}
     .k-card--padless{ padding:0; }
 
-    .k-header{ display:flex; justify-content:space-between; align-items:center; padding:16px 18px; margin-bottom:16px; }
-    .k-title{ margin:0; color:var(--title); font-weight:800; letter-spacing:.2px; font-size: clamp(22px, 2.6vw, 28px); }
-    .k-sub{ margin:4px 0 0; color:var(--muted); font-size:13px; }
-    .k-header__left{ display:flex; flex-direction:column; gap:6px; }
-    .k-header__right{ display:flex; align-items:center; gap:12px; }
+    .k-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  margin-bottom: 24px;
 
-    /* Segmented control */
-    .k-seg{ display:flex; border:1px solid var(--border); background:#fff; border-radius:999px; padding:4px; box-shadow:var(--shadow-sm); }
-    .k-seg__btn{
-      border:0; background:transparent; padding:8px 14px; border-radius:999px;
-      font-weight:700; color:#3c3f52; cursor:pointer;
-      transition: background .15s ease, color .15s ease, transform .06s ease;
-    }
-    .k-seg__btn:hover{ background:var(--lilac-200); }
-    .k-seg__btn.is-active{
-      background: linear-gradient(180deg, var(--accent-2), var(--accent));
-      color:#fff;
-    }
+  background: linear-gradient(145deg, #2b0066, #140033);
+  border: 1px solid #7f42ff55;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+  color: #f1ecff;
+}
+
+/* Título e subtítulo */
+.k-title {
+  margin: 0;
+  font-size: clamp(24px, 2.8vw, 32px);
+  font-weight: 800;
+  color: #fff;
+}
+
+.k-sub {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #d9c9ff;
+}
+
+/* Botões do topo */
+.k-header__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Cards / Tabela */
+.k-seg {
+  display: flex;
+  border: 1px solid #7f42ff55;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  padding: 4px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+.k-seg__btn {
+  border: 0;
+  background: transparent;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  color: #d9c9ff;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, transform .06s ease;
+}
+
+.k-seg__btn:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.k-seg__btn.is-active {
+  background: linear-gradient(180deg, var(--accent-2), var(--accent));
+  color: #fff;
+}
+
 
     /* ===== FORM DE CRIAÇÃO ===== */
-    .k-form-row{ display:flex; gap:16px; align-items:flex-end; flex-wrap:wrap; }
+    .k-form-row {
+  display: flex;
+  gap: 16px;
+  align-items: center; /* ⬅️ muda de flex-end para center */
+  flex-wrap: wrap;
+}
     .k-form-col{ flex:1 1 560px; min-width:280px; }
     .k-label{ display:block; font-weight:700; font-size:13px; color:#3a3556; margin-bottom:8px; }
     .k-hint{ display:block; color:var(--muted); font-size:12px; margin-top:6px; }
@@ -240,7 +302,24 @@ import { BancosService, Banco } from './bancos.service';
       box-shadow: 0 0 0 3px color-mix(in hsl, var(--accent) 22%, transparent);
       background:#fff;
     }
-    .k-input-lg{ padding:14px 14px; font-size:15px; }
+    .k-input-lg {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid #7f42ff55;
+  color: #fff;
+  padding: 14px;
+  font-size: 15px;
+}
+
+.k-input-lg::placeholder {
+  color: #d9c9ff;
+}
+
+.k-input-lg:focus {
+  background: rgba(255,255,255,0.12);
+  border-color: #7f42ff;
+  box-shadow: 0 0 0 2px rgba(127,66,255,.35);
+}
+
     .k-input-sm{ padding:8px 10px; font-size:14px; }
 
     /* ===== BUTTONS ===== */
@@ -252,21 +331,30 @@ import { BancosService, Banco } from './bancos.service';
     }
     .k-btn:hover{ transform: translateY(-1px); box-shadow:var(--shadow); }
     .k-btn:disabled{ opacity:.65; cursor:not-allowed; transform:none; box-shadow:var(--shadow-sm); }
-    .k-btn-ghost{ background:#fff; }
+    .k-btn-ghost {
+  background: rgba(255,255,255,0.08);
+  color: #f1ecff;
+  border: 1px solid #7f42ff55;
+}
+
+.k-btn-ghost:hover {
+  background: rgba(255,255,255,0.12);
+}
 
     /* PRIMÁRIO ROXO CHAMATIVO — TEXTO PRETO (pedido) */
-    .k-btn-primary{
-      color:#ffff; 
-      background: linear-gradient(180deg, var(--accent-2) 0%, var(--accent) 100%);
-      border-color: color-mix(in hsl, var(--accent) 70%, transparent);
-      box-shadow: 0 4px 12px rgba(234, 231, 238, 0.32);
-    }
-    .k-btn-primary:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(181, 23, 255, .32);
-      /* mais claro no hover para manter contraste do texto preto */
-      background: linear-gradient(180deg, #D8B6FF 0%, var(--accent) 100%);
-    }
+    .k-btn-primary {
+  background: linear-gradient(180deg, var(--accent-2), var(--accent));
+  color: #fff;
+  border: 1px solid #7f42ff55;
+  box-shadow: 0 4px 12px rgba(234, 231, 238, 0.32);
+}
+
+.k-btn-primary:hover {
+  background: linear-gradient(180deg, #D8B6FF, var(--accent));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(181, 23, 255, .32);
+}
+
 
     /* Sucesso / Perigo (mantidos) */
     .k-btn-success{
@@ -280,35 +368,158 @@ import { BancosService, Banco } from './bancos.service';
 
     .mt-12{ margin-top:12px; }
 
-    /* ===== GRID DE CARDS ===== */
-    .k-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-top:16px; }
-    .k-bank{
-      background:#fff; border:1px solid var(--border); border-radius:16px; padding:16px; box-shadow:var(--shadow);
-      transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
-    }
-    .k-bank:hover{ transform: translateY(-2px); border-color:var(--border-strong); box-shadow:0 12px 32px rgba(16,24,40,.10); }
-    .k-bank__top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-    .k-id{ font-size:12px; font-weight:800; color:#5a5; background:var(--lilac-200); border:1px solid var(--border); padding:6px 10px; border-radius:999px; }
-    .k-mono{
-      width:44px; height:44px; border-radius:12px; display:grid; place-items:center; font-weight:900; color:#fff; letter-spacing:.5px;
-      background: linear-gradient(135deg, var(--accent-2), var(--accent));
-      box-shadow: inset 0 0 8px rgba(255,255,255,.25);
-    }
-    .mb-6{ margin-bottom:6px; }
-    .k-input-row{ display:flex; gap:10px; align-items:center; }
-    .k-actions{ display:flex; gap:8px; margin-top:12px; }
+    /* ===== CARD ROXO ESCURO PADRÃO (COMPACTO) ===== */
+    
+.k-bank {
+  display: inline-block;     /* mantém os cards lado a lado */
+  vertical-align: top;
+  margin: 20px;              /* espaçamento externo maior */
+
+  background: linear-gradient(145deg, #2b0066, #140033);
+  border: 1px solid #7f42ff55;
+  border-radius: 14px;
+
+  padding: 28px;             /* espaço interno mais confortável */
+  height: auto;              /* altura automática conforme conteúdo */
+  max-width: 400px;          /* mais espaço para textos longos */
+
+  box-shadow: 
+    0 8px 20px rgba(0,0,0,.35),
+    inset 0 0 0 1px rgba(255,255,255,.08);
+
+  color: #f1ecff;
+
+  transition: 
+    transform .14s ease, 
+    box-shadow .14s ease, 
+    border-color .14s ease;
+}
+
+
+
+
+
+.k-bank:hover {
+  transform: translateY(-2px);
+  border-color: #7f42ff;
+  box-shadow:
+    0 10px 26px rgba(127,66,255,.45),
+    inset 0 0 0 1px rgba(255,255,255,.12);
+}
+
+/* ===== TOPO DO CARD ===== */
+.k-bank__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px; /* ⬅️ MENOR */
+}
+
+/* ===== ID ===== */
+.k-id {
+  font-size: 11px;   /* ⬅️ MENOR */
+  font-weight: 800;
+  color: #fff;
+  background: rgba(127, 66, 255, 0.25);
+  border: 1px solid #7f42ff55;
+  padding: 5px 8px;  /* ⬅️ MENOR */
+  border-radius: 999px;
+}
+
+/* ===== ÍCONE / BOLINHA ===== */
+.k-mono {
+  width: 38px;      /* ⬅️ MENOR */
+  height: 38px;     /* ⬅️ MENOR */
+  border-radius: 10px;
+
+  display: grid;
+  place-items: center;
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: .5px;
+
+  background: linear-gradient(135deg, #B517FF, #7f42ff);
+  box-shadow: inset 0 0 6px rgba(255,255,255,.25);
+}
+
+/* ===== INPUTS DENTRO DO CARD ===== */
+.k-bank .k-input {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid #7f42ff55;
+  color: #fff;
+
+  padding: 8px 10px;   /* ⬅️ MENOR */
+  font-size: 13px;    /* ⬅️ MENOR */
+}
+
+.k-bank .k-input::placeholder {
+  color: #d9c9ff;
+}
+
+.k-bank .k-input:focus {
+  background: rgba(255,255,255,0.12);
+  border-color: #7f42ff;
+  box-shadow: 0 0 0 2px rgba(127,66,255,.35);
+}
+
+/* ===== AÇÕES ===== */
+.k-actions {
+  display: flex;
+  gap: 6px;      /* ⬅️ MENOR */
+  margin-top: 10px;
+}
 
     /* ===== TABELA ===== */
-    .k-table-wrap{ width:100%; overflow:auto; border-radius:16px; }
-    .k-table{ width:100%; border-collapse:separate; border-spacing:0; }
-    .k-table thead th{
-      text-align:left; padding:14px 16px; font-weight:800; color:#548;
-      background:var(--lilac-100); border-bottom:1px solid var(--border);
-    }
-    .k-table tbody td{ padding:14px 16px; border-bottom:1px solid var(--border); vertical-align:middle; }
-    .k-row:nth-child(odd) td{ background:var(--lilac-100); }
-    .k-row:hover td{ background:var(--lilac-200); }
-    .k-cell-id{ color:#548; font-weight:800; }
+   .k-table-wrap {
+  width: 100%;
+  overflow: auto;
+  border-radius: 16px;
+  padding: 12px;
+  background: linear-gradient(145deg, #2b0066, #140033); /* fundo igual ao card */
+  box-shadow: 
+    0 6px 16px rgba(0,0,0,.35),
+    inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+.k-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 15px;
+  color: #f1ecff; /* texto claro igual ao card */
+}
+
+.k-table thead th {
+  text-align: left;
+  padding: 18px 20px;
+  font-weight: 800;
+  color: #fff;
+  background: rgba(127, 66, 255, 0.25); /* tom lilás translúcido */
+  border-bottom: 2px solid #7f42ff55;
+}
+
+.k-table tbody td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #7f42ff55;
+  vertical-align: middle;
+  background: rgba(255,255,255,0.04); /* fundo leve nas células */
+}
+
+.k-table tbody tr:nth-child(odd) td {
+  background: rgba(255,255,255,0.06); /* alternância suave */
+}
+
+.k-table tbody tr:hover td {
+  background: rgba(255,255,255,0.12);
+  transition: background 0.2s ease;
+}
+
+.k-cell-id {
+  color: #d9c9ff;
+  font-weight: 800;
+}
+
+
 
     /* ===== EMPTY / ALERT ===== */
     .k-empty{ text-align:center; padding:28px; color:var(--muted); background:var(--lilac-100); border-top:1px solid var(--border); }
@@ -336,70 +547,70 @@ export class BancosComponent {
   ngOnInit() { this.carregar(); }
 
   carregar() {
-  this.loading = true;
-  this.error = '';
+    this.loading = true;
+    this.error = '';
 
-  this.api.listar().subscribe({
-    next: (data) => {
-      this.bancos = data;
-      this.loading = false;
-    },
-    error: (err) => {
-      this.error = this.getErrorMessage(err, 'Falha ao carregar');
-      this.loading = false;
-    }
-  });
-}
+    this.api.listar().subscribe({
+      next: (data) => {
+        this.bancos = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = this.getErrorMessage(err, 'Falha ao carregar');
+        this.loading = false;
+      }
+    });
+  }
 
-criar() {
-  if (this.form.invalid) return;
+  criar() {
+    if (this.form.invalid) return;
 
-  this.loading = true;
-  this.error = '';
+    this.loading = true;
+    this.error = '';
 
-  this.api.criar(this.form.value).subscribe({
-    next: () => {
-      this.form.reset();
-      this.carregar();
-    },
-    error: (err) => {
-      this.error = this.getErrorMessage(err, 'Falha ao criar');
-      this.loading = false;
-    }
-  });
-}
+    this.api.criar(this.form.value).subscribe({
+      next: () => {
+        this.form.reset();
+        this.carregar();
+      },
+      error: (err) => {
+        this.error = this.getErrorMessage(err, 'Falha ao criar');
+        this.loading = false;
+      }
+    });
+  }
 
-atualizar(id: number, razaoSocial: string) {
-  this.loading = true;
-  this.error = '';
+  atualizar(id: number, razaoSocial: string) {
+    this.loading = true;
+    this.error = '';
 
-  this.api.atualizar(id, { razaoSocial }).subscribe({
-    next: () => this.carregar(),
-    error: (err) => {
-      this.error = this.getErrorMessage(err, 'Falha ao atualizar');
-      this.loading = false;
-    }
-  });
-}
+    this.api.atualizar(id, { razaoSocial }).subscribe({
+      next: () => this.carregar(),
+      error: (err) => {
+        this.error = this.getErrorMessage(err, 'Falha ao atualizar');
+        this.loading = false;
+      }
+    });
+  }
 
-remover(id: number) {
-  this.loading = true;
-  this.error = '';
+  remover(id: number) {
+    this.loading = true;
+    this.error = '';
 
-  this.api.remover(id).subscribe({
-    next: () => this.carregar(),
-    error: (err) => {
-      this.error = this.getErrorMessage(err, 'Falha ao excluir');
-      this.loading = false;
-    }
-  });
-}
+    this.api.remover(id).subscribe({
+      next: () => this.carregar(),
+      error: (err) => {
+        this.error = this.getErrorMessage(err, 'Falha ao excluir');
+        this.loading = false;
+      }
+    });
+  }
 
   private getErrorMessage(err: any, fallback: string) {
-  return err?.error?.message ||
-         err?.error?.error ||
-         err?.message ||
-         fallback;
-}
+    return err?.error?.message ||
+      err?.error?.error ||
+      err?.message ||
+      fallback;
+  }
 
 }
